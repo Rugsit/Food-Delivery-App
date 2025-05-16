@@ -3,6 +3,9 @@ import 'package:ecommerce_project/features/authentication/presentation/bloc/regi
 import 'package:ecommerce_project/features/authentication/presentation/bloc/validation/validation_bloc.dart';
 import 'package:ecommerce_project/features/authentication/presentation/pages/LoginPage.dart';
 import 'package:ecommerce_project/features/authentication/presentation/pages/RegisterPage.dart';
+import 'package:ecommerce_project/features/home/presentation/bloc/category/category_bloc.dart';
+import 'package:ecommerce_project/features/home/presentation/bloc/restaurant/restaurant_bloc.dart';
+import 'package:ecommerce_project/features/home/presentation/pages/Home.dart';
 import 'package:ecommerce_project/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
   final GoRouter router = GoRouter(
-    initialLocation: "/login",
+    initialLocation: "/home",
     routes: <RouteBase>[
       GoRoute(
         path: "/login",
@@ -32,6 +35,12 @@ void main() async {
           );
         },
       ),
+      GoRoute(
+        path: "/home",
+        builder: (context, state) {
+          return HomePage();
+        },
+      ),
     ],
   );
   runApp(
@@ -39,6 +48,8 @@ void main() async {
       providers: [
         BlocProvider(create: (_) => getIt<RegisterBloc>()),
         BlocProvider(create: (_) => getIt<LoginBloc>()),
+        BlocProvider(create: (_) => getIt<CategoryBloc>()),
+        BlocProvider(create: (_) => getIt<RestaurantBloc>()),
       ],
       child: MyApp(router: router),
     ),

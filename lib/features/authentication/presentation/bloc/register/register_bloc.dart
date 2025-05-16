@@ -11,13 +11,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<SignUp>(onSubmitForm);
   }
 
-  final Register register;
+  final RegisterUseCase register;
 
   void onSubmitForm(SignUp event, Emitter<RegisterState> emit) async {
     emit(RegisterLoading());
 
     final response = await register.call(
-      User(
+      UserEntity(
         firstName: event.firstName,
         lastName: event.lastName,
         userName: event.userName,

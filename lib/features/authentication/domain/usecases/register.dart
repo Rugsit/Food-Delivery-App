@@ -5,12 +5,12 @@ import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class Register {
+class RegisterUseCase {
   final AuthRepository repository;
 
-  Register(this.repository);
+  RegisterUseCase(this.repository);
 
-  Future<Either<Failure, User>> call(User user) async {
-    return repository.register(user);
+  Future<Either<Failure, UserEntity>> call(UserEntity user) async {
+    return repository.registerRepository(user);
   }
 }

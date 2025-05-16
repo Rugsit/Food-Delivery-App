@@ -101,3 +101,17 @@ class AuthFailure extends Failure {
     return 'AuthFailure $errorMessage';
   }
 }
+
+class FetchFailure extends Failure {
+  const FetchFailure({this.errorMessage});
+
+  final String? errorMessage;
+
+  @override
+  List<Object?> get props => [errorMessage];
+
+  @override
+  String toString() {
+    return 'FetchFailure $errorMessage';
+  }
+}

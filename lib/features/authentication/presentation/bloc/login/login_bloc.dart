@@ -12,7 +12,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<SignIn>((event, emit) => onSignInRequest(event, emit));
   }
 
-  final Login login;
+  final LoginUseCase login;
 
   Future<void> onSignInRequest(SignIn event, Emitter<LoginState> emit) async {
     emit(LoginLoading());

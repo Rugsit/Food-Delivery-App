@@ -6,9 +6,9 @@ import 'package:ecommerce_project/features/authentication/presentation/bloc/vali
 import 'package:ecommerce_project/features/authentication/presentation/bloc/validation/validation_event.dart';
 import 'package:ecommerce_project/features/authentication/presentation/bloc/validation/validation_state.dart';
 import 'package:ecommerce_project/features/authentication/presentation/widgets/AlertPopup.dart';
-import 'package:ecommerce_project/features/authentication/presentation/widgets/EcomButton.dart';
+import 'package:ecommerce_project/core/widget/EcomButton.dart';
 import 'package:ecommerce_project/features/authentication/presentation/widgets/EcomSnackBar.dart';
-import 'package:ecommerce_project/features/authentication/presentation/widgets/EcomTextField.dart';
+import 'package:ecommerce_project/core/widget/EcomTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -203,15 +203,22 @@ class RegisterPage extends StatelessWidget {
                         );
                       }
                     },
-                    child: EcomButton(
-                      textColor: Colors.white,
-                      backgroundColor: Colors.blueAccent,
-                      text: "Create Account",
-                      onPressed: () {
-                        context.read<ValidationFormBloc>().add(
-                          ValidateRegisterForm(),
-                        );
-                      },
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: EcomButton(
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            textColor: Colors.white,
+                            backgroundColor: Colors.blueAccent,
+                            text: "Create Account",
+                            onPressed: () {
+                              context.read<ValidationFormBloc>().add(
+                                ValidateRegisterForm(),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

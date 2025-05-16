@@ -25,6 +25,24 @@ import 'package:ecommerce_project/features/authentication/presentation/bloc/regi
     as _i483;
 import 'package:ecommerce_project/features/authentication/presentation/bloc/validation/validation_bloc.dart'
     as _i102;
+import 'package:ecommerce_project/features/home/data/datasources/home_remote_datasource.dart'
+    as _i287;
+import 'package:ecommerce_project/features/home/data/repositories/category_repository_impl.dart'
+    as _i927;
+import 'package:ecommerce_project/features/home/data/repositories/restaurant_repository_impl.dart'
+    as _i271;
+import 'package:ecommerce_project/features/home/domain/repositories/category_repository.dart'
+    as _i962;
+import 'package:ecommerce_project/features/home/domain/repositories/restaurant_repository.dart'
+    as _i581;
+import 'package:ecommerce_project/features/home/domain/usecases/fetch_category.dart'
+    as _i483;
+import 'package:ecommerce_project/features/home/domain/usecases/fetch_restaurant.dart'
+    as _i47;
+import 'package:ecommerce_project/features/home/presentation/bloc/category/category_bloc.dart'
+    as _i893;
+import 'package:ecommerce_project/features/home/presentation/bloc/restaurant/restaurant_bloc.dart'
+    as _i856;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
@@ -40,16 +58,49 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i697.AuthRemoteDatasource>(
       () => _i697.AuthRemoteDatasource(gh<_i454.SupabaseClient>()),
     );
+    gh.factory<_i287.HomeRemoteDataSource>(
+      () => _i287.HomeRemoteDataSource(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i962.CategoryRepository>(
+      () => _i927.CategoryRepositoryImpl(
+        remoteDataSource: gh<_i287.HomeRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i581.RestaurantRepository>(
+      () => _i271.RestaurantRepositoryImpl(
+        remoteDataSource: gh<_i287.HomeRemoteDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i718.AuthRepository>(
       () => _i1040.AuthRepositoryImpl(gh<_i697.AuthRemoteDatasource>()),
     );
-    gh.factory<_i506.Login>(() => _i506.Login(gh<_i718.AuthRepository>()));
-    gh.factory<_i394.Register>(
-      () => _i394.Register(gh<_i718.AuthRepository>()),
+    gh.factory<_i47.FetchRestaurantsUseCase>(
+      () => _i47.FetchRestaurantsUseCase(
+        repository: gh<_i581.RestaurantRepository>(),
+      ),
     );
-    gh.factory<_i895.LoginBloc>(() => _i895.LoginBloc(gh<_i506.Login>()));
+    gh.factory<_i483.FetchCategoriesUseCase>(
+      () => _i483.FetchCategoriesUseCase(
+        repository: gh<_i962.CategoryRepository>(),
+      ),
+    );
+    gh.factory<_i856.RestaurantBloc>(
+      () => _i856.RestaurantBloc(gh<_i47.FetchRestaurantsUseCase>()),
+    );
+    gh.factory<_i893.CategoryBloc>(
+      () => _i893.CategoryBloc(gh<_i483.FetchCategoriesUseCase>()),
+    );
+    gh.factory<_i506.LoginUseCase>(
+      () => _i506.LoginUseCase(gh<_i718.AuthRepository>()),
+    );
+    gh.factory<_i394.RegisterUseCase>(
+      () => _i394.RegisterUseCase(gh<_i718.AuthRepository>()),
+    );
     gh.factory<_i483.RegisterBloc>(
-      () => _i483.RegisterBloc(gh<_i394.Register>()),
+      () => _i483.RegisterBloc(gh<_i394.RegisterUseCase>()),
+    );
+    gh.factory<_i895.LoginBloc>(
+      () => _i895.LoginBloc(gh<_i506.LoginUseCase>()),
     );
     return this;
   }

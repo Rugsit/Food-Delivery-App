@@ -3,9 +3,9 @@ import 'package:ecommerce_project/features/authentication/presentation/bloc/vali
 import 'package:ecommerce_project/features/authentication/presentation/bloc/validation/validation_event.dart';
 import 'package:ecommerce_project/features/authentication/presentation/bloc/validation/validation_state.dart';
 import 'package:ecommerce_project/features/authentication/presentation/widgets/AlertPopup.dart';
-import 'package:ecommerce_project/features/authentication/presentation/widgets/EcomButton.dart';
+import 'package:ecommerce_project/core/widget/EcomButton.dart';
 import 'package:ecommerce_project/features/authentication/presentation/widgets/EcomSnackBar.dart';
-import 'package:ecommerce_project/features/authentication/presentation/widgets/EcomTextField.dart';
+import 'package:ecommerce_project/core/widget/EcomTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -102,27 +102,43 @@ class LoginPage extends StatelessWidget {
                         );
                       }
                     },
-                    child: EcomButton(
-                      onPressed: () {
-                        context.read<ValidationFormBloc>().add(
-                          ValidateLoginForm(),
-                        );
-                      },
-                      text: "Sign In",
-                      textColor: Colors.white,
-                      backgroundColor: Colors.blueAccent,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: EcomButton(
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            onPressed: () {
+                              context.read<ValidationFormBloc>().add(
+                                ValidateLoginForm(),
+                              );
+                            },
+                            text: "Sign In",
+                            textColor: Colors.white,
+                            backgroundColor: Colors.blueAccent,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 15),
-                  EcomButton(
-                    onPressed: () {
-                      context.read<ValidationFormBloc>().add(ResetFormField());
-                      context.go("/register");
-                    },
-                    text: "Create Account",
-                    textColor: Colors.black,
-                    backgroundColor: Colors.white,
-                    borderColor: Colors.grey[300],
+                  Row(
+                    children: [
+                      Expanded(
+                        child: EcomButton(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          onPressed: () {
+                            context.read<ValidationFormBloc>().add(
+                              ResetFormField(),
+                            );
+                            context.go("/register");
+                          },
+                          text: "Create Account",
+                          textColor: Colors.black,
+                          backgroundColor: Colors.white,
+                          borderColor: Colors.grey[300],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

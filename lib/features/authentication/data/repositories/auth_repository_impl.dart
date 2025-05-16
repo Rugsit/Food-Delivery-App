@@ -12,7 +12,10 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDatasource authRemoteDatasource;
 
   @override
-  Future<Either<Failure, User>> login(String email, String password) async {
+  Future<Either<Failure, UserEntity>> loginRepository(
+    String email,
+    String password,
+  ) async {
     final response = await authRemoteDatasource.login(email, password);
     return response.fold(
       (left) {
@@ -20,7 +23,7 @@ class AuthRepositoryImpl implements AuthRepository {
       },
       (right) {
         return Either.right(
-          User(
+          UserEntity(
             firstName: right.firstName,
             lastName: right.lastName,
             userName: right.userName,
@@ -34,7 +37,9 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> register(User user) async {
+  Future<Either<Failure, UserEntity>> registerRepository(
+    UserEntity user,
+  ) async {
     final dataUserModel = UserModel(
       firstName: user.firstName,
       lastName: user.lastName,
@@ -50,7 +55,7 @@ class AuthRepositoryImpl implements AuthRepository {
       },
       (right) {
         return Either.right(
-          User(
+          UserEntity(
             firstName: right.firstName,
             lastName: right.lastName,
             userName: right.userName,

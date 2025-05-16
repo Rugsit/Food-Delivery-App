@@ -39,8 +39,8 @@ class UserModel {
     };
   }
 
-  User toEntity() {
-    return User(
+  UserEntity toEntity() {
+    return UserEntity(
       firstName: firstName,
       lastName: lastName,
       userName: userName,

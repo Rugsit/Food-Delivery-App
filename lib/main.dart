@@ -6,6 +6,7 @@ import 'package:ecommerce_project/features/authentication/presentation/pages/Reg
 import 'package:ecommerce_project/features/home/presentation/bloc/category/category_bloc.dart';
 import 'package:ecommerce_project/features/home/presentation/bloc/restaurant/restaurant_bloc.dart';
 import 'package:ecommerce_project/features/home/presentation/pages/Home.dart';
+import 'package:ecommerce_project/features/restaurant_detail/presentation/pages/restaurant_detail_page.dart';
 import 'package:ecommerce_project/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,6 +40,13 @@ void main() async {
         path: "/home",
         builder: (context, state) {
           return HomePage();
+        },
+      ),
+      GoRoute(
+        path: "/restaurant_detail/:id",
+        builder: (context, state) {
+          final id = state.pathParameters['id'];
+          return RestaurantDetailPage(id: id!);
         },
       ),
     ],

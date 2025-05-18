@@ -1,4 +1,5 @@
 import 'package:ecommerce_project/features/home/domain/entities/restaurant.dart';
+import 'package:ecommerce_project/features/restaurant_detail/domain/entities/restaurant.dart';
 
 class RestaurantModel {
   RestaurantModel({
@@ -11,6 +12,7 @@ class RestaurantModel {
     required this.description,
     required this.review,
     required this.img,
+    required this.logo,
   });
 
   final String id;
@@ -19,6 +21,7 @@ class RestaurantModel {
   final double maxPrice;
   final double? lat;
   final double? long;
+  final String logo;
   final String description;
   final int review;
   final String img;
@@ -34,6 +37,7 @@ class RestaurantModel {
       description: json["description"],
       review: json["review"],
       img: json["img"],
+      logo: json["logo"],
     );
   }
 
@@ -48,11 +52,25 @@ class RestaurantModel {
       "description": description,
       "review": review,
       "img": img,
+      "logo": logo,
     };
   }
 
-  RestaurantEntity toEntity() {
+  RestaurantEntity toEntityRestaurant() {
     return RestaurantEntity(
+      id: id,
+      name: name,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
+      lat: lat,
+      long: long,
+      review: review,
+      img: img,
+    );
+  }
+
+  RestaurantDetailEntity toEntityRestaurantDetail() {
+    return RestaurantDetailEntity(
       id: id,
       name: name,
       minPrice: minPrice,
@@ -62,6 +80,7 @@ class RestaurantModel {
       description: description,
       review: review,
       img: img,
+      logo: logo
     );
   }
 }

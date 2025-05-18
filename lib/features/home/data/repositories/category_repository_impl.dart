@@ -31,7 +31,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
       final reponse = await remoteDataSource.fetchRestaurant();
       return reponse.fold(
         (left) => Either.left(left),
-        (right) => Either.right(right.map((item) => item.toEntity()).toList()),
+        (right) => Either.right(right.map((item) => item.toEntityRestaurant()).toList()),
       );
     } catch (e) {
       return Either.left(FetchFailure(errorMessage: e.toString()));

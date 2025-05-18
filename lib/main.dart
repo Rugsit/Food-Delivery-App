@@ -6,6 +6,7 @@ import 'package:ecommerce_project/features/authentication/presentation/pages/Reg
 import 'package:ecommerce_project/features/home/presentation/bloc/category/category_bloc.dart';
 import 'package:ecommerce_project/features/home/presentation/bloc/restaurant/restaurant_bloc.dart';
 import 'package:ecommerce_project/features/home/presentation/pages/Home.dart';
+import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/restaurant/restaurant_detail_bloc.dart';
 import 'package:ecommerce_project/features/restaurant_detail/presentation/pages/restaurant_detail_page.dart';
 import 'package:ecommerce_project/injection_container.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +59,7 @@ void main() async {
         BlocProvider(create: (_) => getIt<LoginBloc>()),
         BlocProvider(create: (_) => getIt<CategoryBloc>()),
         BlocProvider(create: (_) => getIt<RestaurantBloc>()),
+        BlocProvider(create: (_) => getIt<RestaurantDetailBloc>()),
       ],
       child: MyApp(router: router),
     ),

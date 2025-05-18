@@ -43,6 +43,16 @@ import 'package:ecommerce_project/features/home/presentation/bloc/category/categ
     as _i893;
 import 'package:ecommerce_project/features/home/presentation/bloc/restaurant/restaurant_bloc.dart'
     as _i856;
+import 'package:ecommerce_project/features/restaurant_detail/data/datasources/restaurant_detail_remote_datasource.dart'
+    as _i985;
+import 'package:ecommerce_project/features/restaurant_detail/data/repositories/restaurant_detail_repository_impl.dart'
+    as _i224;
+import 'package:ecommerce_project/features/restaurant_detail/domain/repositories/restaurant_detail_repository.dart'
+    as _i827;
+import 'package:ecommerce_project/features/restaurant_detail/domain/usecases/fetch_restaurant_by_id.dart'
+    as _i475;
+import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/restaurant/restaurant_detail_bloc.dart'
+    as _i46;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
@@ -61,6 +71,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i287.HomeRemoteDataSource>(
       () => _i287.HomeRemoteDataSource(gh<_i454.SupabaseClient>()),
     );
+    gh.factory<_i985.RestaurantDetailRemoteDatasource>(
+      () => _i985.RestaurantDetailRemoteDatasource(gh<_i454.SupabaseClient>()),
+    );
     gh.lazySingleton<_i962.CategoryRepository>(
       () => _i927.CategoryRepositoryImpl(
         remoteDataSource: gh<_i287.HomeRemoteDataSource>(),
@@ -73,6 +86,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i718.AuthRepository>(
       () => _i1040.AuthRepositoryImpl(gh<_i697.AuthRemoteDatasource>()),
+    );
+    gh.lazySingleton<_i827.RestaurantDetailRepository>(
+      () => _i224.RestaurantDetailRepositoryImpl(
+        remoteDataSource: gh<_i985.RestaurantDetailRemoteDatasource>(),
+      ),
     );
     gh.factory<_i47.FetchRestaurantsUseCase>(
       () => _i47.FetchRestaurantsUseCase(
@@ -87,6 +105,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i856.RestaurantBloc>(
       () => _i856.RestaurantBloc(gh<_i47.FetchRestaurantsUseCase>()),
     );
+    gh.factory<_i475.FetchRestaurantByIdUseCase>(
+      () => _i475.FetchRestaurantByIdUseCase(
+        repository: gh<_i827.RestaurantDetailRepository>(),
+      ),
+    );
     gh.factory<_i893.CategoryBloc>(
       () => _i893.CategoryBloc(gh<_i483.FetchCategoriesUseCase>()),
     );
@@ -98,6 +121,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i483.RegisterBloc>(
       () => _i483.RegisterBloc(gh<_i394.RegisterUseCase>()),
+    );
+    gh.factory<_i46.RestaurantDetailBloc>(
+      () => _i46.RestaurantDetailBloc(gh<_i475.FetchRestaurantByIdUseCase>()),
     );
     gh.factory<_i895.LoginBloc>(
       () => _i895.LoginBloc(gh<_i506.LoginUseCase>()),

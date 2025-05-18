@@ -18,7 +18,6 @@ class FetchRestaurantsUseCase {
         (right) => Either.right(right),
       );
     } catch (e) {
-      throw Exception(e);
       return Either.left(FetchFailure(errorMessage: e.toString()));
     }
   }

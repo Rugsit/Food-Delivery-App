@@ -49,8 +49,18 @@ import 'package:ecommerce_project/features/restaurant_detail/data/repositories/r
     as _i224;
 import 'package:ecommerce_project/features/restaurant_detail/domain/repositories/restaurant_detail_repository.dart'
     as _i827;
+import 'package:ecommerce_project/features/restaurant_detail/domain/usecases/fetch_food_by_restaurant_id.dart'
+    as _i747;
 import 'package:ecommerce_project/features/restaurant_detail/domain/usecases/fetch_restaurant_by_id.dart'
     as _i475;
+import 'package:ecommerce_project/features/restaurant_detail/domain/usecases/like.dart'
+    as _i983;
+import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/food/food_bloc.dart'
+    as _i354;
+import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/like/like_bloc.dart'
+    as _i759;
+import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/order/order_bloc.dart'
+    as _i82;
 import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/restaurant/restaurant_detail_bloc.dart'
     as _i46;
 import 'package:get_it/get_it.dart' as _i174;
@@ -105,11 +115,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i856.RestaurantBloc>(
       () => _i856.RestaurantBloc(gh<_i47.FetchRestaurantsUseCase>()),
     );
+    gh.factory<_i747.FetchFoodByRestaurantIdUseCase>(
+      () => _i747.FetchFoodByRestaurantIdUseCase(
+        repository: gh<_i827.RestaurantDetailRepository>(),
+      ),
+    );
     gh.factory<_i475.FetchRestaurantByIdUseCase>(
       () => _i475.FetchRestaurantByIdUseCase(
         repository: gh<_i827.RestaurantDetailRepository>(),
       ),
     );
+    gh.factory<_i983.LikeUseCase>(
+      () =>
+          _i983.LikeUseCase(repository: gh<_i827.RestaurantDetailRepository>()),
+    );
+    gh.factory<_i759.FoodBloc>(() => _i759.FoodBloc(gh<_i983.LikeUseCase>()));
     gh.factory<_i893.CategoryBloc>(
       () => _i893.CategoryBloc(gh<_i483.FetchCategoriesUseCase>()),
     );
@@ -124,6 +144,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i46.RestaurantDetailBloc>(
       () => _i46.RestaurantDetailBloc(gh<_i475.FetchRestaurantByIdUseCase>()),
+    );
+    gh.factory<_i354.FoodBloc>(
+      () => _i354.FoodBloc(gh<_i747.FetchFoodByRestaurantIdUseCase>()),
+    );
+    gh.factory<_i82.OrderBloc>(
+      () => _i82.OrderBloc(gh<_i747.FetchFoodByRestaurantIdUseCase>()),
     );
     gh.factory<_i895.LoginBloc>(
       () => _i895.LoginBloc(gh<_i506.LoginUseCase>()),

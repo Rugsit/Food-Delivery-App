@@ -156,6 +156,40 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        color: Colors.white,
+        child: BottomNavigationBar(
+          selectedItemColor: Colors.blue,
+          backgroundColor: Colors.transparent,
+          type: BottomNavigationBarType.fixed,
+          elevation: 0,
+          currentIndex: 0,
+          iconSize: 20,
+          items: const [
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.house),
+              label: "Home",
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.heart),
+              label: "Favorite",
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.windowRestore),
+              label: "Browse",
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.file),
+              label: "My Orders",
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.user),
+              label: "Profile",
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -18,6 +18,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     final response = await register.call(
       UserEntity(
+        id: event.id,
         firstName: event.firstName,
         lastName: event.lastName,
         userName: event.userName,

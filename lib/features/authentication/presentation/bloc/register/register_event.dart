@@ -4,6 +4,7 @@ abstract class RegisterEvent extends Equatable {}
 
 class SignUp extends RegisterEvent {
   SignUp({
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.userName,
@@ -12,6 +13,7 @@ class SignUp extends RegisterEvent {
     required this.password,
   });
 
+  final String id;
   final String firstName;
   final String lastName;
   final String userName;

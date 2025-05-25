@@ -17,10 +17,9 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
       final reponse = await remoteDataSource.fetchRestaurant();
       return reponse.fold(
         (left) => Either.left(left),
-        (right) => Either.right(right.map((item) => item.toEntity()).toList()),
+        (right) => Either.right(right.map((item) => item.toEntityRestaurant()).toList()),
       );
     } catch (e) {
-      throw Exception(e);
       return Either.left(FetchFailure(errorMessage: e.toString()));
     }
   }

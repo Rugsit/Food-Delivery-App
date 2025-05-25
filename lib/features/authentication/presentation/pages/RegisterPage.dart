@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uuid/uuid.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -190,6 +191,7 @@ class RegisterPage extends StatelessWidget {
                       if (state.validateStatus) {
                         context.read<RegisterBloc>().add(
                           SignUp(
+                            id: Uuid().v4(),
                             firstName: validationState.firstName.value,
                             lastName: validationState.lastName.value,
                             userName: validationState.userName.value,

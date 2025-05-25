@@ -1,6 +1,6 @@
 import 'package:ecommerce_project/core/error/failures.dart';
 import 'package:ecommerce_project/features/home/data/models/category.dart';
-import 'package:ecommerce_project/features/home/data/models/restaurant.dart';
+import 'package:ecommerce_project/core/model/restaurant.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

@@ -9,4 +9,5 @@ abstract class AuthRepository {
   );
   Future<void> logout();
   Future<Either<Failure, UserEntity>> registerRepository(UserEntity user);
+  Future<Either<Failure, UserEntity>> fetchUser();
 }

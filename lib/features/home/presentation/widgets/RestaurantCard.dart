@@ -1,18 +1,37 @@
+import 'package:ecommerce_project/features/authentication/presentation/bloc/user/user_bloc.dart';
 import 'package:ecommerce_project/features/home/domain/entities/restaurant.dart';
+import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/like/like_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
-class RestaurantCard extends StatelessWidget {
-  const RestaurantCard({super.key, required this.restaurant});
+class RestaurantCard extends StatefulWidget {
+  const RestaurantCard({
+    super.key,
+    required this.restaurant,
+    required this.initLike,
+    required this.userId,
+    required this.likeList,
+    required this.index,
+  });
 
+  final int index;
+  final List<bool> likeList;
+  final bool initLike;
+  final String userId;
   final RestaurantEntity restaurant;
 
+  @override
+  State<RestaurantCard> createState() => _RestaurantCardState();
+}
+
+class _RestaurantCardState extends State<RestaurantCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.go("/restaurant_detail/${restaurant.id}");
+        context.go("/restaurant_detail/${widget.restaurant.id}");
       },
       child: Container(
         width: 180,
@@ -31,7 +50,10 @@ class RestaurantCard extends StatelessWidget {
                   ),
                   width: 180,
                   height: 100,
-                  child: Image.network(restaurant.img, fit: BoxFit.cover),
+                  child: Image.network(
+                    widget.restaurant.img,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 IconButton(
                   constraints: BoxConstraints(),
@@ -40,13 +62,42 @@ class RestaurantCard extends StatelessWidget {
                     iconSize: 10,
                     backgroundColor: Colors.white,
                   ),
-                  onPressed: () {},
-                  icon: FaIcon(FontAwesomeIcons.heart, size: 15),
+                  onPressed: () {
+                    if (!widget.likeList[widget.index]) {
+                      context.read<LikeBloc>().add(
+                        LikeRestaurant(
+                          userId: widget.userId,
+                          restaurantId: widget.restaurant.id,
+                        ),
+                      );
+                    } else {
+                      context.read<LikeBloc>().add(
+                        UnlikeRestaurant(
+                          userId: widget.userId,
+                          restaurantId: widget.restaurant.id,
+                        ),
+                      );
+                    }
+                    setState(() {
+                      widget.likeList[widget.index] =
+                          !widget.likeList[widget.index];
+                    });
+                  },
+                  icon: FaIcon(
+                    widget.likeList[widget.index]
+                        ? FontAwesomeIcons.solidHeart
+                        : FontAwesomeIcons.heart,
+                    size: 15,
+                    color:
+                        widget.likeList[widget.index]
+                            ? Colors.redAccent
+                            : Colors.black,
+                  ),
                 ),
               ],
             ),
             Text(
-              restaurant.name,
+              widget.restaurant.name,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Row(
@@ -58,7 +109,7 @@ class RestaurantCard extends StatelessWidget {
                   size: 15,
                 ),
                 Text(
-                  "4.5 (${restaurant.review} review)",
+                  "4.5 (${widget.restaurant.review} review)",
                   style: TextStyle(color: Colors.grey[800]),
                 ),
               ],
@@ -67,7 +118,7 @@ class RestaurantCard extends StatelessWidget {
               spacing: 5,
               children: [
                 Text(
-                  "\$${restaurant.minPrice}-\$${restaurant.maxPrice}",
+                  "\$${widget.restaurant.minPrice}-\$${widget.restaurant.maxPrice}",
                   style: TextStyle(
                     color: Colors.green,
                     fontWeight: FontWeight.bold,

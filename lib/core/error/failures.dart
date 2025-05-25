@@ -115,3 +115,31 @@ class FetchFailure extends Failure {
     return 'FetchFailure $errorMessage';
   }
 }
+
+class InsertFailure extends Failure {
+  const InsertFailure({this.errorMessage});
+
+  final String? errorMessage;
+
+  @override
+  List<Object?> get props => [errorMessage];
+
+  @override
+  String toString() {
+    return 'InsertFailure $errorMessage';
+  }
+}
+
+class DeleteFailure extends Failure {
+  const DeleteFailure({this.errorMessage});
+
+  final String? errorMessage;
+
+  @override
+  List<Object?> get props => [errorMessage];
+
+  @override
+  String toString() {
+    return 'DeleteFailure $errorMessage';
+  }
+}

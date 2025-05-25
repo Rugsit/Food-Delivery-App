@@ -1,11 +1,15 @@
 import 'package:ecommerce_project/features/authentication/presentation/bloc/login/login_bloc.dart';
 import 'package:ecommerce_project/features/authentication/presentation/bloc/register/register_bloc.dart';
+import 'package:ecommerce_project/features/authentication/presentation/bloc/user/user_bloc.dart';
 import 'package:ecommerce_project/features/authentication/presentation/bloc/validation/validation_bloc.dart';
 import 'package:ecommerce_project/features/authentication/presentation/pages/LoginPage.dart';
 import 'package:ecommerce_project/features/authentication/presentation/pages/RegisterPage.dart';
 import 'package:ecommerce_project/features/home/presentation/bloc/category/category_bloc.dart';
 import 'package:ecommerce_project/features/home/presentation/bloc/restaurant/restaurant_bloc.dart';
 import 'package:ecommerce_project/features/home/presentation/pages/Home.dart';
+import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/food/food_bloc.dart';
+import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/like/like_bloc.dart';
+import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/order/order_bloc.dart';
 import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/restaurant/restaurant_detail_bloc.dart';
 import 'package:ecommerce_project/features/restaurant_detail/presentation/pages/restaurant_detail_page.dart';
 import 'package:ecommerce_project/injection_container.dart';
@@ -17,7 +21,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
   final GoRouter router = GoRouter(
-    initialLocation: "/home",
+    initialLocation: "/login",
     routes: <RouteBase>[
       GoRoute(
         path: "/login",
@@ -60,6 +64,10 @@ void main() async {
         BlocProvider(create: (_) => getIt<CategoryBloc>()),
         BlocProvider(create: (_) => getIt<RestaurantBloc>()),
         BlocProvider(create: (_) => getIt<RestaurantDetailBloc>()),
+        BlocProvider(create: (_) => getIt<FoodBloc>()),
+        BlocProvider(create: (_) => getIt<OrderBloc>()),
+        BlocProvider(create: (_) => getIt<LikeBloc>()),
+        BlocProvider(create: (_) => getIt<UserBloc>()),
       ],
       child: MyApp(router: router),
     ),

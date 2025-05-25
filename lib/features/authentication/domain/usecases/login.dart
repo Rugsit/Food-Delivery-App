@@ -22,6 +22,7 @@ class LoginUseCase {
       (right) {
         return Right(
           UserEntity(
+            id: right.id,
             firstName: right.firstName,
             lastName: right.lastName,
             userName: right.userName,

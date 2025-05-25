@@ -15,6 +15,8 @@ import 'package:ecommerce_project/features/authentication/data/repositories/auth
     as _i1040;
 import 'package:ecommerce_project/features/authentication/domain/repositories/auth_repository.dart'
     as _i718;
+import 'package:ecommerce_project/features/authentication/domain/usecases/fetch_user.dart'
+    as _i54;
 import 'package:ecommerce_project/features/authentication/domain/usecases/login.dart'
     as _i506;
 import 'package:ecommerce_project/features/authentication/domain/usecases/register.dart'
@@ -23,6 +25,8 @@ import 'package:ecommerce_project/features/authentication/presentation/bloc/logi
     as _i895;
 import 'package:ecommerce_project/features/authentication/presentation/bloc/register/register_bloc.dart'
     as _i483;
+import 'package:ecommerce_project/features/authentication/presentation/bloc/user/user_bloc.dart'
+    as _i900;
 import 'package:ecommerce_project/features/authentication/presentation/bloc/validation/validation_bloc.dart'
     as _i102;
 import 'package:ecommerce_project/features/home/data/datasources/home_remote_datasource.dart'
@@ -53,8 +57,14 @@ import 'package:ecommerce_project/features/restaurant_detail/domain/usecases/fet
     as _i747;
 import 'package:ecommerce_project/features/restaurant_detail/domain/usecases/fetch_restaurant_by_id.dart'
     as _i475;
+import 'package:ecommerce_project/features/restaurant_detail/domain/usecases/fetch_restaurant_liked.dart'
+    as _i39;
+import 'package:ecommerce_project/features/restaurant_detail/domain/usecases/fetch_restaurant_liked_by_id.dart'
+    as _i917;
 import 'package:ecommerce_project/features/restaurant_detail/domain/usecases/like.dart'
     as _i983;
+import 'package:ecommerce_project/features/restaurant_detail/domain/usecases/unlike.dart'
+    as _i86;
 import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/food/food_bloc.dart'
     as _i354;
 import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/like/like_bloc.dart'
@@ -125,13 +135,30 @@ extension GetItInjectableX on _i174.GetIt {
         repository: gh<_i827.RestaurantDetailRepository>(),
       ),
     );
+    gh.factory<_i39.FetchRestaurantLiked>(
+      () => _i39.FetchRestaurantLiked(
+        repository: gh<_i827.RestaurantDetailRepository>(),
+      ),
+    );
+    gh.factory<_i917.FetchRestaurantLikedByIdUseCase>(
+      () => _i917.FetchRestaurantLikedByIdUseCase(
+        repository: gh<_i827.RestaurantDetailRepository>(),
+      ),
+    );
     gh.factory<_i983.LikeUseCase>(
       () =>
           _i983.LikeUseCase(repository: gh<_i827.RestaurantDetailRepository>()),
     );
-    gh.factory<_i759.FoodBloc>(() => _i759.FoodBloc(gh<_i983.LikeUseCase>()));
+    gh.factory<_i86.UnlikeUseCase>(
+      () => _i86.UnlikeUseCase(
+        repository: gh<_i827.RestaurantDetailRepository>(),
+      ),
+    );
     gh.factory<_i893.CategoryBloc>(
       () => _i893.CategoryBloc(gh<_i483.FetchCategoriesUseCase>()),
+    );
+    gh.factory<_i54.FetchUserUseCase>(
+      () => _i54.FetchUserUseCase(gh<_i718.AuthRepository>()),
     );
     gh.factory<_i506.LoginUseCase>(
       () => _i506.LoginUseCase(gh<_i718.AuthRepository>()),
@@ -145,6 +172,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i46.RestaurantDetailBloc>(
       () => _i46.RestaurantDetailBloc(gh<_i475.FetchRestaurantByIdUseCase>()),
     );
+    gh.factory<_i759.LikeBloc>(
+      () => _i759.LikeBloc(
+        gh<_i983.LikeUseCase>(),
+        gh<_i86.UnlikeUseCase>(),
+        gh<_i39.FetchRestaurantLiked>(),
+        gh<_i917.FetchRestaurantLikedByIdUseCase>(),
+      ),
+    );
     gh.factory<_i354.FoodBloc>(
       () => _i354.FoodBloc(gh<_i747.FetchFoodByRestaurantIdUseCase>()),
     );
@@ -153,6 +188,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i895.LoginBloc>(
       () => _i895.LoginBloc(gh<_i506.LoginUseCase>()),
+    );
+    gh.factory<_i900.UserBloc>(
+      () => _i900.UserBloc(gh<_i54.FetchUserUseCase>()),
     );
     return this;
   }

@@ -1,11 +1,10 @@
 import 'package:ecommerce_project/core/widget/EcomButton.dart';
 import 'package:ecommerce_project/core/widget/EcomTextField.dart';
+import 'package:ecommerce_project/features/authentication/presentation/bloc/user/user_bloc.dart';
 import 'package:ecommerce_project/features/home/domain/entities/category.dart';
-import 'package:ecommerce_project/features/home/domain/entities/restaurant.dart';
 import 'package:ecommerce_project/features/home/presentation/bloc/category/category_bloc.dart';
 import 'package:ecommerce_project/features/home/presentation/bloc/restaurant/restaurant_bloc.dart';
 import 'package:ecommerce_project/features/home/presentation/widgets/CategoryCard.dart';
-import 'package:ecommerce_project/features/home/presentation/widgets/RestaurantCard.dart';
 import 'package:ecommerce_project/features/home/presentation/widgets/RestaurantSlider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +23,10 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     context.read<CategoryBloc>().add(FetchCategories());
     context.read<RestaurantBloc>().add(FetchRestaurant());
+    context.read<UserBloc>().add(GetUser());
   }
+
+  String searchKeyWord = "";
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class _HomePageState extends State<HomePage> {
             actions: [
               IconButton(
                 onPressed: () {},
-                icon: FaIcon(FontAwesomeIcons.heart),
+                icon: FaIcon(FontAwesomeIcons.cartShopping),
               ),
             ],
           ),
@@ -116,7 +118,11 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 30),
               Ecomtextfield(
-                onChanged: (value) {},
+                onChanged: (value) {
+                  setState(() {
+                    searchKeyWord = value;
+                  });
+                },
                 labelText: "Search for products",
                 icon: FaIcon(
                   FontAwesomeIcons.magnifyingGlass,
@@ -139,10 +145,16 @@ class _HomePageState extends State<HomePage> {
                         scrollDirection: Axis.horizontal,
                         itemCount: categories.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return CategoryCard(
-                            imgUrl: categories[index].imageUrl,
-                            name: categories[index].name,
-                          );
+                          if (categories[index].name.toLowerCase().contains(
+                                searchKeyWord.toLowerCase(),
+                              ) ||
+                              searchKeyWord == "") {
+                            return CategoryCard(
+                              imgUrl: categories[index].imageUrl,
+                              name: categories[index].name,
+                            );
+                          }
+                          return Container();
                         },
                       ),
                     );
@@ -174,10 +186,6 @@ class _HomePageState extends State<HomePage> {
             BottomNavigationBarItem(
               icon: FaIcon(FontAwesomeIcons.heart),
               label: "Favorite",
-            ),
-            BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.windowRestore),
-              label: "Browse",
             ),
             BottomNavigationBarItem(
               icon: FaIcon(FontAwesomeIcons.file),

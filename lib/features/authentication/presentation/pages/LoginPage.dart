@@ -33,6 +33,7 @@ class LoginPage extends StatelessWidget {
             isError: false,
             text: "Sign in successfully",
           ).showSnackBar(context);
+          context.go("/home");
         } else if (state is LoginLoading) {
           showDialog(
             context: context,

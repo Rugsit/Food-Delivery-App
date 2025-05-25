@@ -1,10 +1,5 @@
 class LikeEntity {
-  LikeEntity({
-    required this.id,
-    required this.userId,
-    required this.restaurantId,
-  });
-  final String id;
+  LikeEntity({required this.userId, required this.restaurantId});
   final String userId;
   final String restaurantId;
 }

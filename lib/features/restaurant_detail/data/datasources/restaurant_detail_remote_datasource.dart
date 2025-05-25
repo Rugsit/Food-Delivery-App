@@ -69,22 +69,90 @@ class RestaurantDetailRemoteDatasource {
     String userId,
   ) async {
     try {
-      final id = Uuid().v4();
       final response = await supabase.from("like").insert({
-        "id": id,
         "restaurant_id": restaurantId,
         "user_id": userId,
       });
-      if (response.error != null) {
+      if (response != null && response.error != null) {
         return Either.left(
           InsertFailure(errorMessage: "Failure to insert like in database"),
         );
       }
       return Either.right(
-        LikeModel(id: id, restaurantId: restaurantId, userId: userId),
+        LikeModel(restaurantId: restaurantId, userId: userId),
       );
     } catch (e) {
       return Either.left(InsertFailure(errorMessage: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, LikeModel>> unlike(
+    String restaurantId,
+    String userId,
+  ) async {
+    try {
+      final response = await supabase.from("like").delete().match({
+        'user_id': userId,
+        'restaurant_id': restaurantId,
+      });
+      if (response == null || response.error != null) {
+        return Either.left(
+          InsertFailure(errorMessage: "Failure to insert like in database"),
+        );
+      }
+      return Either.right(
+        LikeModel(restaurantId: restaurantId, userId: userId),
+      );
+    } catch (e) {
+      return Either.left(DeleteFailure(errorMessage: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, List<bool>>> fetchRestaurantLiked(
+    List<String> restaurantIdList,
+    String userId,
+  ) async {
+    try {
+      final response = await supabase
+          .from("like")
+          .select()
+          .eq("user_id", userId);
+
+      final restaurantList =
+          response.map((item) => item["restaurant_id"] as String).toList();
+      final likedList = List.filled(restaurantIdList.length, false);
+      for (int index = 0; index < likedList.length; index++) {
+        likedList[index] = restaurantList.contains(restaurantIdList[index]);
+      }
+
+      return Either.right(likedList);
+    } catch (e) {
+      return Either.left(FetchFailure(errorMessage: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, LikeModel?>> fetchRestaurantLikedById(
+    String restaurantId,
+    String userId,
+  ) async {
+    try {
+      final response =
+          await supabase.from("like").select().match({
+            "restaurant_id": restaurantId,
+            "user_id": userId,
+          }).maybeSingle();
+
+      if (response == null) {
+        return Either.right(null);
+      }
+      return Either.right(
+        LikeModel(
+          restaurantId: response["restaurant_id"],
+          userId: response["user_id"],
+        ),
+      );
+    } catch (e) {
+      return Either.left(FetchFailure(errorMessage: e.toString()));
     }
   }
 }

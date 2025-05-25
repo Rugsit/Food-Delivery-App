@@ -62,7 +62,6 @@ class RestaurantDetailRepositoryImpl implements RestaurantDetailRepository {
         (left) => Either.left(left),
         (right) => Either.right(
           LikeModel(
-            id: right.id,
             userId: right.userId,
             restaurantId: right.restaurantId,
           ).toEntity(),
@@ -70,6 +69,68 @@ class RestaurantDetailRepositoryImpl implements RestaurantDetailRepository {
       );
     } catch (e) {
       return Either.left(InsertFailure(errorMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, LikeEntity>> unlike(
+    String restaurantId,
+    String userId,
+  ) async {
+    try {
+      final Either<Failure, LikeModel> response = await remoteDataSource.unlike(
+        restaurantId,
+        userId,
+      );
+      return response.fold(
+        (left) => Either.left(left),
+        (right) => Either.right(
+          LikeModel(
+            userId: right.userId,
+            restaurantId: right.restaurantId,
+          ).toEntity(),
+        ),
+      );
+    } catch (e) {
+      return Either.left(DeleteFailure(errorMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<bool>>> fetchRestaurantLiked(
+    List<String> restaurantIdList,
+    String userId,
+  ) async {
+    try {
+      final response = await remoteDataSource.fetchRestaurantLiked(
+        restaurantIdList,
+        userId,
+      );
+      return response.fold((left) => Either.left(left), (right) {
+        return Either.right(right);
+      });
+    } catch (e) {
+      return Either.left(FetchFailure(errorMessage: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, LikeEntity?>> fetchRestaurantLikedById(
+    String restaurantId,
+    String userId,
+  ) async {
+    try {
+      final response = await remoteDataSource.fetchRestaurantLikedById(
+        restaurantId,
+        userId,
+      );
+      return response.fold((left) => Either.left(left), (right) {
+        if (right == null) {
+          return Either.right(null);
+        }
+        return Either.right(right.toEntity());
+      });
+    } catch (e) {
+      return Either.left(FetchFailure(errorMessage: e.toString()));
     }
   }
 }

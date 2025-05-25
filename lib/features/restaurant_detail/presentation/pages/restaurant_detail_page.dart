@@ -1,5 +1,7 @@
+import 'package:ecommerce_project/features/authentication/presentation/bloc/user/user_bloc.dart';
 import 'package:ecommerce_project/features/restaurant_detail/domain/entities/restaurant.dart';
 import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/food/food_bloc.dart';
+import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/like/like_bloc.dart';
 import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/order/order_bloc.dart';
 import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/restaurant/restaurant_detail_bloc.dart';
 import 'package:ecommerce_project/features/restaurant_detail/presentation/widgets/RestaurantDetail.dart';
@@ -43,11 +45,37 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
             backgroundColor: Colors.white,
             body: Stack(
               children: [
-                CustomScrollView(
-                  slivers: [
-                    RestaurantDetailAppBar(restaurant: restaurant),
-                    RestaurantDetail(restaurant: restaurant),
-                  ],
+                BlocBuilder<UserBloc, UserState>(
+                  builder: (context, state) {
+                    String userId = "";
+                    if (state is UserSuccess) {
+                      userId = state.user.id;
+                      context.read<LikeBloc>().add(
+                        FetchLike(userId: userId, restaurantId: restaurant.id),
+                      );
+                    }
+                    return BlocBuilder<LikeBloc, LikeState>(
+                      builder: (context, state) {
+                        if (state is FetchLikeLoading) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        if (state is FetchLikeSuccess) {
+                          return CustomScrollView(
+                            slivers: [
+                              RestaurantDetailAppBar(
+                                restaurant: restaurant,
+                                initLike: state.like != null,
+                                restaurantId: restaurant.id,
+                                userId: userId,
+                              ),
+                              RestaurantDetail(restaurant: restaurant),
+                            ],
+                          );
+                        }
+                        return Container();
+                      },
+                    );
+                  },
                 ),
                 Positioned(
                   left: 0,

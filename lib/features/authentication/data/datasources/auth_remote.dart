@@ -57,6 +57,7 @@ class AuthRemoteDatasource {
       }
       return Either.right(
         UserModel(
+          id: user["id"],
           firstName: user["firstName"],
           lastName: user["lastName"],
           userName: user["userName"],
@@ -71,6 +72,34 @@ class AuthRemoteDatasource {
       return Either.left(AuthFailure(errorMessage: e.message));
     } on Exception catch (e) {
       return Either.left(AuthFailure(errorMessage: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, UserModel>> fetchUser() async {
+    try {
+      final user = supabase.auth.currentUser;
+      final userId = user?.id;
+      if (userId == null) {
+        return Either.left(FetchFailure(errorMessage: "User not found"));
+      }
+      final response =
+          await supabase.from("users").select().eq("id", userId).maybeSingle();
+      if (response == null) {
+        return Either.left(AuthFailure(errorMessage: 'User not found'));
+      }
+      return Either.right(
+        UserModel(
+          id: response["id"],
+          firstName: response["firstName"],
+          lastName: response["lastName"],
+          userName: response["userName"],
+          email: response["email"],
+          phoneNumber: response["phoneNumber"],
+          password: "",
+        ),
+      );
+    } catch (e) {
+      return Either.left(FetchFailure(errorMessage: e.toString()));
     }
   }
 }

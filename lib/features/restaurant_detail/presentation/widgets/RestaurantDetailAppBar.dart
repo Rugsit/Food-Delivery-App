@@ -1,14 +1,38 @@
 import 'dart:ui';
 
 import 'package:ecommerce_project/features/restaurant_detail/domain/entities/restaurant.dart';
+import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/like/like_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
-class RestaurantDetailAppBar extends StatelessWidget {
-  const RestaurantDetailAppBar({super.key, required this.restaurant});
+class RestaurantDetailAppBar extends StatefulWidget {
+  const RestaurantDetailAppBar({
+    super.key,
+    required this.restaurant,
+    required this.initLike,
+    required this.restaurantId,
+    required this.userId,
+  });
 
+  final bool initLike;
   final RestaurantDetailEntity restaurant;
+  final String userId;
+  final String restaurantId;
+
+  @override
+  State<RestaurantDetailAppBar> createState() => _RestaurantDetailAppBarState();
+}
+
+class _RestaurantDetailAppBarState extends State<RestaurantDetailAppBar> {
+  late bool like;
+
+  @override
+  void initState() {
+    super.initState();
+    like = widget.initLike;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +45,7 @@ class RestaurantDetailAppBar extends StatelessWidget {
       pinned: true,
       stretch: true,
       flexibleSpace: FlexibleSpaceBar(
-        background: Image.network(restaurant.img, fit: BoxFit.cover),
+        background: Image.network(widget.restaurant.img, fit: BoxFit.cover),
         stretchModes: const [
           StretchMode.blurBackground,
           StretchMode.zoomBackground,
@@ -72,8 +96,30 @@ class RestaurantDetailAppBar extends StatelessWidget {
               ),
               backgroundColor: WidgetStatePropertyAll(customWhite),
             ),
-            onPressed: () {},
-            icon: const FaIcon(FontAwesomeIcons.heart),
+            onPressed: () {
+              if (like) {
+                context.read<LikeBloc>().add(
+                  UnlikeRestaurant(
+                    userId: widget.userId,
+                    restaurantId: widget.restaurantId,
+                  ),
+                );
+              } else {
+                context.read<LikeBloc>().add(
+                  LikeRestaurant(
+                    userId: widget.userId,
+                    restaurantId: widget.restaurantId,
+                  ),
+                );
+              }
+              setState(() {
+                like = !like;
+              });
+            },
+            icon: FaIcon(
+              like ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
+              color: like ? Colors.redAccent : Colors.black,
+            ),
           ),
         ),
       ],

@@ -1,8 +1,8 @@
 import 'package:ecommerce_project/features/authentication/presentation/bloc/user/user_bloc.dart';
-import 'package:ecommerce_project/features/home/domain/entities/restaurant.dart';
-import 'package:ecommerce_project/features/home/presentation/bloc/restaurant/restaurant_bloc.dart';
+import 'package:ecommerce_project/features/restaurant/domain/entities/restaurant.dart';
+import 'package:ecommerce_project/features/restaurant/presentation/bloc/restaurant_all/restaurant_bloc.dart';
 import 'package:ecommerce_project/features/home/presentation/widgets/RestaurantCard.dart';
-import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/like/like_bloc.dart';
+import 'package:ecommerce_project/features/restaurant/presentation/bloc/like/like_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -47,7 +47,7 @@ class RestaurantSlider extends StatelessWidget {
               if (state is RestaurantFailure) {
                 return Text(state.errorMessage);
               }
-              if (state is RestaurantSuccess) {
+              if (state is RestaurantListSuccess) {
                 final List<RestaurantEntity> restaurants = state.restaurants;
                 final List<String> restaurantIdList =
                     restaurants.map((item) => item.id).toList();

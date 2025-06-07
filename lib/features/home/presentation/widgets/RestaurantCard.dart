@@ -1,6 +1,6 @@
 import 'package:ecommerce_project/features/authentication/presentation/bloc/user/user_bloc.dart';
-import 'package:ecommerce_project/features/home/domain/entities/restaurant.dart';
-import 'package:ecommerce_project/features/restaurant_detail/presentation/bloc/like/like_bloc.dart';
+import 'package:ecommerce_project/features/restaurant/domain/entities/restaurant.dart';
+import 'package:ecommerce_project/features/restaurant/presentation/bloc/like/like_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -31,7 +31,7 @@ class _RestaurantCardState extends State<RestaurantCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.go("/restaurant_detail/${widget.restaurant.id}");
+        context.push("/restaurant_detail/${widget.restaurant.id}");
       },
       child: Container(
         width: 180,

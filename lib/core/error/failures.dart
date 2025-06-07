@@ -130,6 +130,20 @@ class InsertFailure extends Failure {
   }
 }
 
+class UpdateFailure extends Failure {
+  const UpdateFailure({this.errorMessage});
+
+  final String? errorMessage;
+
+  @override
+  List<Object?> get props => [errorMessage];
+
+  @override
+  String toString() {
+    return 'UpdateFailure $errorMessage';
+  }
+}
+
 class DeleteFailure extends Failure {
   const DeleteFailure({this.errorMessage});
 

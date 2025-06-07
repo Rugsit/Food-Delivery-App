@@ -1,14 +1,13 @@
 import 'package:ecommerce_project/core/widget/EcomButton.dart';
-import 'package:ecommerce_project/core/widget/EcomTextField.dart';
 import 'package:ecommerce_project/features/authentication/presentation/bloc/user/user_bloc.dart';
-import 'package:ecommerce_project/features/home/domain/entities/category.dart';
 import 'package:ecommerce_project/features/home/presentation/bloc/category/category_bloc.dart';
-import 'package:ecommerce_project/features/home/presentation/bloc/restaurant/restaurant_bloc.dart';
-import 'package:ecommerce_project/features/home/presentation/widgets/CategoryCard.dart';
+import 'package:ecommerce_project/features/home/presentation/widgets/category_list.dart';
+import 'package:ecommerce_project/features/restaurant/presentation/bloc/restaurant_all/restaurant_bloc.dart';
 import 'package:ecommerce_project/features/home/presentation/widgets/RestaurantSlider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,8 +24,6 @@ class _HomePageState extends State<HomePage> {
     context.read<RestaurantBloc>().add(FetchRestaurant());
     context.read<UserBloc>().add(GetUser());
   }
-
-  String searchKeyWord = "";
 
   @override
   Widget build(BuildContext context) {
@@ -64,139 +61,60 @@ class _HomePageState extends State<HomePage> {
             ),
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.push("/order");
+                },
                 icon: FaIcon(FontAwesomeIcons.cartShopping),
               ),
             ],
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            children: [
-              SizedBox(height: 10),
-              Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(10),
+      body: ListView(
+        padding: EdgeInsets.all(20),
+        children: [
+          SizedBox(height: 10),
+          Container(
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              spacing: 10,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: Transform.rotate(
+                    angle: -0.5,
+                    child: FaIcon(FontAwesomeIcons.ticket, color: Colors.green),
+                  ),
                 ),
-                child: Row(
-                  spacing: 10,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Transform.rotate(
-                        angle: -0.5,
-                        child: FaIcon(
-                          FontAwesomeIcons.ticket,
-                          color: Colors.green,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        "You still have 2x unused free delivery coupons",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                    ),
-                    EcomButton(
-                      textColor: Colors.black,
-                      backgroundColor: Colors.white,
-                      text: "Use Now",
-                      onPressed: () {},
-                      padding: EdgeInsets.all(10),
-                    ),
-                  ],
+                Expanded(
+                  child: Text(
+                    "You still have 2x unused free delivery coupons",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
                 ),
-              ),
-              SizedBox(height: 30),
-              Ecomtextfield(
-                onChanged: (value) {
-                  setState(() {
-                    searchKeyWord = value;
-                  });
-                },
-                labelText: "Search for products",
-                icon: FaIcon(
-                  FontAwesomeIcons.magnifyingGlass,
-                  color: Colors.grey[500],
+                EcomButton(
+                  textColor: Colors.black,
+                  backgroundColor: Colors.white,
+                  text: "Use Now",
+                  onPressed: () {},
+                  padding: EdgeInsets.all(10),
                 ),
-              ),
-              BlocBuilder<CategoryBloc, CategoryState>(
-                builder: (context, state) {
-                  if (state is CategoryLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  if (state is CategoryFailure) {
-                    return Text(state.errorMessage);
-                  }
-                  if (state is CategorySuccess) {
-                    final List<CategoryEntity> categories = state.categories;
-                    return SizedBox(
-                      height: 120,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: categories.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          if (categories[index].name.toLowerCase().contains(
-                                searchKeyWord.toLowerCase(),
-                              ) ||
-                              searchKeyWord == "") {
-                            return CategoryCard(
-                              imgUrl: categories[index].imageUrl,
-                              name: categories[index].name,
-                            );
-                          }
-                          return Container();
-                        },
-                      ),
-                    );
-                  }
-                  return Container();
-                },
-              ),
-              RestaurantSlider(title: "Restaurant Near of You"),
-              RestaurantSlider(title: "Recommendations For You"),
-            ],
+              ],
+            ),
           ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        color: Colors.white,
-        child: BottomNavigationBar(
-          selectedItemColor: Colors.blue,
-          backgroundColor: Colors.transparent,
-          type: BottomNavigationBarType.fixed,
-          elevation: 0,
-          currentIndex: 0,
-          iconSize: 20,
-          items: const [
-            BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.house),
-              label: "Home",
-            ),
-            BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.heart),
-              label: "Favorite",
-            ),
-            BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.file),
-              label: "My Orders",
-            ),
-            BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.user),
-              label: "Profile",
-            ),
-          ],
-        ),
+          SizedBox(height: 30),
+          CategoryList(),
+          RestaurantSlider(title: "Restaurant Near of You"),
+          RestaurantSlider(title: "Recommendations For You"),
+        ],
       ),
     );
   }

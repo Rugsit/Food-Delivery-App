@@ -25,6 +25,7 @@ class OrderCard extends StatefulWidget {
 
 class _OrderCardState extends State<OrderCard> {
   late int count;
+  bool isProcessing = false;
   @override
   void initState() {
     super.initState();
@@ -83,14 +84,14 @@ class _OrderCardState extends State<OrderCard> {
                           spacing: 20,
                           children: [
                             GestureDetector(
-                              onTap: () {
-                                if (count <= 0) {
+                              onTap: () async {
+                                if (isProcessing || count <= 0) {
                                   return;
                                 }
+                                isProcessing = true;
                                 setState(() {
                                   count--;
                                 });
-
                                 widget.calculatePrice(widget.order.price * -1);
                                 context.read<UpdateOrderBloc>().add(
                                   UpdateOrderEvent(
@@ -101,8 +102,11 @@ class _OrderCardState extends State<OrderCard> {
                                 );
                                 if (count <= 0) {
                                   widget.deleteOrder(widget.index);
-                                  return;
                                 }
+                                await Future.delayed(
+                                  Duration(milliseconds: 500),
+                                );
+                                isProcessing = false;
                               },
                               child: FaIcon(
                                 FontAwesomeIcons.minus,

@@ -1,4 +1,5 @@
-class User {
+class UserEntity {
+  final String id;
   final String firstName;
   final String lastName;
   final String userName;
@@ -6,7 +7,8 @@ class User {
   final String phoneNumber;
   final String password;
 
-  User({
+  UserEntity({
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.userName,

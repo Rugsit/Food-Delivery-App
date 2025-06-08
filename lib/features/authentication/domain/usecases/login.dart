@@ -5,20 +5,24 @@ import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class Login {
+class LoginUseCase {
   final AuthRepository repository;
 
-  Login(this.repository);
+  LoginUseCase(this.repository);
 
-  Future<Either<Failure, User>> call(String email, String password) async {
-    final response = await repository.login(email, password);
+  Future<Either<Failure, UserEntity>> call(
+    String email,
+    String password,
+  ) async {
+    final response = await repository.loginRepository(email, password);
     return response.fold(
       (left) {
         return Left(left);
       },
       (right) {
         return Right(
-          User(
+          UserEntity(
+            id: right.id,
             firstName: right.firstName,
             lastName: right.lastName,
             userName: right.userName,

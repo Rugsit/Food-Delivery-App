@@ -1,6 +1,7 @@
 import 'package:ecommerce_project/features/authentication/domain/entities/user.dart';
 
 class UserModel {
+  final String id;
   final String firstName;
   final String lastName;
   final String userName;
@@ -9,6 +10,7 @@ class UserModel {
   final String password;
 
   UserModel({
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.userName,
@@ -19,6 +21,7 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
+      id: json["id"],
       firstName: json["firstName"],
       lastName: json["lastName"],
       userName: json["userName"],
@@ -39,8 +42,9 @@ class UserModel {
     };
   }
 
-  User toEntity() {
-    return User(
+  UserEntity toEntity() {
+    return UserEntity(
+      id: id,
       firstName: firstName,
       lastName: lastName,
       userName: userName,

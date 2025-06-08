@@ -12,7 +12,10 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDatasource authRemoteDatasource;
 
   @override
-  Future<Either<Failure, User>> login(String email, String password) async {
+  Future<Either<Failure, UserEntity>> loginRepository(
+    String email,
+    String password,
+  ) async {
     final response = await authRemoteDatasource.login(email, password);
     return response.fold(
       (left) {
@@ -20,7 +23,8 @@ class AuthRepositoryImpl implements AuthRepository {
       },
       (right) {
         return Either.right(
-          User(
+          UserEntity(
+            id: right.id,
             firstName: right.firstName,
             lastName: right.lastName,
             userName: right.userName,
@@ -34,8 +38,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> register(User user) async {
+  Future<Either<Failure, UserEntity>> registerRepository(
+    UserEntity user,
+  ) async {
     final dataUserModel = UserModel(
+      id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       userName: user.userName,
@@ -49,18 +56,17 @@ class AuthRepositoryImpl implements AuthRepository {
         return Either.left(left);
       },
       (right) {
-        return Either.right(
-          User(
-            firstName: right.firstName,
-            lastName: right.lastName,
-            userName: right.userName,
-            phoneNumber: right.phoneNumber,
-            password: right.password,
-            email: right.email,
-          ),
-        );
+        return Either.right(right.toEntity());
       },
     );
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> fetchUser() async {
+    final result = await authRemoteDatasource.fetchUser();
+    return result.fold((left) {
+      return Either.left(left);
+    }, (right) => Either.right(right.toEntity()));
   }
 
   @override

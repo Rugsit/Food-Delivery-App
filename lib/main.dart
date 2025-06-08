@@ -10,6 +10,7 @@ import 'package:ecommerce_project/features/order/presentation/bloc/fetch_order/o
 import 'package:ecommerce_project/features/order/presentation/bloc/update_order/order_bloc.dart';
 import 'package:ecommerce_project/features/order/presentation/bloc/local_order/order_bloc.dart';
 import 'package:ecommerce_project/features/order/presentation/pages/order.dart';
+import 'package:ecommerce_project/features/restaurant/presentation/bloc/like_list/like_bloc.dart';
 import 'package:ecommerce_project/features/restaurant/presentation/bloc/restaurant_all/restaurant_bloc.dart';
 import 'package:ecommerce_project/features/home/presentation/pages/Home.dart';
 import 'package:ecommerce_project/features/restaurant/presentation/bloc/food/food_bloc.dart';
@@ -116,6 +117,7 @@ void main() async {
         BlocProvider(create: (_) => getIt<FoodBloc>()),
         BlocProvider(create: (_) => getIt<UpdateOrderBloc>()),
         BlocProvider(create: (_) => getIt<LikeBloc>()),
+        BlocProvider(create: (_) => getIt<LikeListBloc>()),
         BlocProvider(create: (_) => getIt<UserBloc>()),
       ],
       child: MyApp(router: router),

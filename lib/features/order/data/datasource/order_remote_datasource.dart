@@ -65,7 +65,6 @@ class OrderRemoteDatasource {
             "food_id": orderEntity.foodId,
             "user_id": orderEntity.userId,
           }).maybeSingle();
-      print(order.toString());
       if (order == null) {
         await supabase.from("orders").insert({
           "food_id": orderEntity.foodId,
@@ -76,14 +75,21 @@ class OrderRemoteDatasource {
           "img": orderEntity.img,
         });
       } else {
-        await supabase
-            .from("orders")
-            .update({"amount": orderEntity.amount + order["amount"]})
-            .match({
-              "food_id": orderEntity.foodId,
-              "user_id": orderEntity.userId,
-            })
-            .maybeSingle();
+        if (orderEntity.amount + order["amount"] <= 0) {
+          await supabase.from("orders").delete().match({
+            "food_id": orderEntity.foodId,
+            "user_id": orderEntity.userId,
+          });
+        } else {
+          await supabase
+              .from("orders")
+              .update({"amount": orderEntity.amount + order["amount"]})
+              .match({
+                "food_id": orderEntity.foodId,
+                "user_id": orderEntity.userId,
+              })
+              .maybeSingle();
+        }
       }
       return Either.right(
         OrderModel(

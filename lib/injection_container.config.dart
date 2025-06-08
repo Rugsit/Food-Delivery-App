@@ -89,6 +89,8 @@ import 'package:ecommerce_project/features/restaurant/presentation/bloc/food/foo
     as _i377;
 import 'package:ecommerce_project/features/restaurant/presentation/bloc/like/like_bloc.dart'
     as _i269;
+import 'package:ecommerce_project/features/restaurant/presentation/bloc/like_list/like_bloc.dart'
+    as _i595;
 import 'package:ecommerce_project/features/restaurant/presentation/bloc/restaurant_all/restaurant_bloc.dart'
     as _i439;
 import 'package:ecommerce_project/features/restaurant/presentation/bloc/restaurant_by_id/restaurant_bloc.dart'
@@ -212,6 +214,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i893.CategoryBloc>(
       () => _i893.CategoryBloc(gh<_i483.FetchCategoriesUseCase>()),
     );
+    gh.factory<_i269.LikeBloc>(
+      () => _i269.LikeBloc(
+        gh<_i502.LikeUseCase>(),
+        gh<_i715.UnlikeUseCase>(),
+        gh<_i213.FetchRestaurantLikedByIdUseCase>(),
+      ),
+    );
     gh.factory<_i579.DeleteOrderBloc>(
       () => _i579.DeleteOrderBloc(
         deleteOrderUseCase: gh<_i473.DeleteOrderUesCase>(),
@@ -236,16 +245,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i483.RegisterBloc>(
       () => _i483.RegisterBloc(gh<_i394.RegisterUseCase>()),
     );
+    gh.factory<_i595.LikeListBloc>(
+      () => _i595.LikeListBloc(gh<_i220.FetchRestaurantLiked>()),
+    );
     gh.factory<_i377.FoodBloc>(
       () => _i377.FoodBloc(gh<_i1062.FetchFoodByRestaurantIdUseCase>()),
-    );
-    gh.factory<_i269.LikeBloc>(
-      () => _i269.LikeBloc(
-        gh<_i502.LikeUseCase>(),
-        gh<_i715.UnlikeUseCase>(),
-        gh<_i220.FetchRestaurantLiked>(),
-        gh<_i213.FetchRestaurantLikedByIdUseCase>(),
-      ),
     );
     gh.factory<_i439.RestaurantBloc>(
       () => _i439.RestaurantBloc(gh<_i425.FetchRestaurantsUseCase>()),

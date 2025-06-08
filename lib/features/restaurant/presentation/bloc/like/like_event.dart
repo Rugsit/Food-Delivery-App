@@ -24,16 +24,6 @@ final class UnlikeRestaurant extends LikeEvent {
   List<Object> get props => [restaurantId, userId];
 }
 
-final class FetchLikeList extends LikeEvent {
-  const FetchLikeList({required this.userId, required this.restaurantIdList});
-
-  final String userId;
-  final List<String> restaurantIdList;
-
-  @override
-  List<Object> get props => [restaurantIdList, userId];
-}
-
 final class FetchLike extends LikeEvent {
   const FetchLike({required this.userId, required this.restaurantId});
 

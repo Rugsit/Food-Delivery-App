@@ -84,7 +84,7 @@ class _OrderCardState extends State<OrderCard> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                if (count == 0) {
+                                if (count <= 0) {
                                   return;
                                 }
                                 setState(() {
@@ -101,12 +101,6 @@ class _OrderCardState extends State<OrderCard> {
                                 );
                                 if (count <= 0) {
                                   widget.deleteOrder(widget.index);
-                                  context.read<DeleteOrderBloc>().add(
-                                    DeleteOrderEvent(
-                                      foodId: widget.order.foodId,
-                                      userId: widget.order.userId,
-                                    ),
-                                  );
                                   return;
                                 }
                               },

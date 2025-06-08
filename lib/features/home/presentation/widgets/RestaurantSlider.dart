@@ -1,8 +1,8 @@
 import 'package:ecommerce_project/features/authentication/presentation/bloc/user/user_bloc.dart';
 import 'package:ecommerce_project/features/restaurant/domain/entities/restaurant.dart';
+import 'package:ecommerce_project/features/restaurant/presentation/bloc/like_list/like_bloc.dart';
 import 'package:ecommerce_project/features/restaurant/presentation/bloc/restaurant_all/restaurant_bloc.dart';
 import 'package:ecommerce_project/features/home/presentation/widgets/RestaurantCard.dart';
-import 'package:ecommerce_project/features/restaurant/presentation/bloc/like/like_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -58,19 +58,19 @@ class RestaurantSlider extends StatelessWidget {
                       String userId = "";
                       if (state is UserSuccess) {
                         userId = state.user.id;
-                        context.read<LikeBloc>().add(
+                        context.read<LikeListBloc>().add(
                           FetchLikeList(
                             userId: userId,
                             restaurantIdList: restaurantIdList,
                           ),
                         );
                       }
-                      return BlocBuilder<LikeBloc, LikeState>(
+                      return BlocBuilder<LikeListBloc, LikeListState>(
                         builder: (context, state) {
-                          if (state is FetchLikeLoading) {
+                          if (state is LikeListLoading) {
                             return Center(child: CircularProgressIndicator());
                           }
-                          if (state is LikeFailure) {
+                          if (state is LikeListFailure) {
                             return Text(state.errorMessage);
                           }
                           if (state is FetchLikeListSuccess) {

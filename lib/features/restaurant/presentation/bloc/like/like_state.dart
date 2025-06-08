@@ -25,15 +25,6 @@ final class FetchLikeLoading extends LikeState {
   List<Object> get props => [];
 }
 
-final class FetchLikeListSuccess extends LikeState {
-  const FetchLikeListSuccess({required this.likedList});
-
-  final List<bool> likedList;
-
-  @override
-  List<Object?> get props => [likedList];
-}
-
 final class FetchLikeSuccess extends LikeState {
   const FetchLikeSuccess({required this.like});
 

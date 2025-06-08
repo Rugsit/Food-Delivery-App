@@ -75,7 +75,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                             ],
                           );
                         }
-                        return Container();
+                        return Container(child: Text(state.toString()));
                       },
                     );
                   },

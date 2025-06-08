@@ -1,5 +1,4 @@
 import 'package:ecommerce_project/features/restaurant/domain/entities/like.dart';
-import 'package:ecommerce_project/features/restaurant/domain/usecase/fetch_restaurant_liked.dart';
 import 'package:ecommerce_project/features/restaurant/domain/usecase/fetch_restaurant_liked_by_id.dart';
 import 'package:ecommerce_project/features/restaurant/domain/usecase/like.dart';
 import 'package:ecommerce_project/features/restaurant/domain/usecase/unlike.dart';
@@ -15,18 +14,15 @@ class LikeBloc extends Bloc<LikeEvent, LikeState> {
   LikeBloc(
     this.likeUseCase,
     this.unlikeUseCase,
-    this.fetchLikeList,
     this.fetchLike,
   ) : super(const LikeInitial()) {
     on<LikeRestaurant>(_onLikeRestaurant);
     on<UnlikeRestaurant>(_onUnlikeRestaurant);
-    on<FetchLikeList>(_fetchRestaurantLiked);
     on<FetchLike>(_fetchRestaurantLikedById);
   }
 
   final LikeUseCase likeUseCase;
   final UnlikeUseCase unlikeUseCase;
-  final FetchRestaurantLiked fetchLikeList;
   final FetchRestaurantLikedByIdUseCase fetchLike;
 
   Future<void> _onLikeRestaurant(
@@ -41,23 +37,6 @@ class LikeBloc extends Bloc<LikeEvent, LikeState> {
     Emitter<LikeState> emit,
   ) async {
     await unlikeUseCase.call(event.restaurantId, event.userId);
-  }
-
-  Future<void> _fetchRestaurantLiked(
-    FetchLikeList event,
-    Emitter<LikeState> emit,
-  ) async {
-    emit(const FetchLikeLoading());
-
-    final response = await fetchLikeList.call(
-      event.restaurantIdList,
-      event.userId,
-    );
-
-    response.fold(
-      (left) => emit(LikeFailure(left.toString())),
-      (right) => emit(FetchLikeListSuccess(likedList: right)),
-    );
   }
 
   Future<void> _fetchRestaurantLikedById(

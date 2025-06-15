@@ -1,4 +1,4 @@
-# ecommerce_project
+# Food Delivery Project
 
 A new Flutter project.
 

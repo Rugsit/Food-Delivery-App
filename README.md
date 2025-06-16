@@ -16,8 +16,5 @@
 ![Image](https://github.com/user-attachments/assets/bbab5fff-419e-47b8-9078-15cfaca128d4)
 ![Image](https://github.com/user-attachments/assets/396dadce-b05e-432c-b1d3-aed4fc5fb80e)
 
-## Demo Application
-- You can download the demo application from the release tag.
-
 ## Descriptions
 - This project was developed using the Flutter framework to implement the UI, Flutter BLoC for state management, and follows the Clean Architecture pattern

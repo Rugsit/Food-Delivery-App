@@ -1,11 +1,11 @@
-<h1 align="center">PawPocket Project</h1>
+<h1 align="center">Food Delivery Project</h1>
 <p align="center"><b>This project aims to improve Flutter skills by implementing UI, managing state with Flutter BLoC, and following clean architecture.</b></p>
 <p align="center">
 <a href="https://flutter.dev/" target="_blank" rel="noreferrer"> <img src="https://www.cdnlogo.com/logos/f/30/flutter.svg" alt="git" width="50" height="40"/> </a>
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://supabase.com/" target="_blank" rel="noreferrer"> <img src="https://elest.io/images/softwares/284/logo.png" alt="css3" width="40" height="40"/> </a>
 &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://firebase.google.com/" target="_blank" rel="noreferrer"> <img src="https://miro.medium.com/v2/resize:fit:738/1*bN7roXeCAcVNrikD27oJAw.png" alt="java" height="40"/> </a>
+<a href="https://firebase.google.com/" target="_blank" rel="noreferrer"> <img src="https://plugins.jetbrains.com/files/12129/770043/icon/default.png" alt="java" height="40"/> </a>
 </p>
 
 ## Showcase</h1>

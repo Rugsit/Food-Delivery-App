@@ -5,7 +5,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://supabase.com/" target="_blank" rel="noreferrer"> <img src="https://elest.io/images/softwares/284/logo.png" alt="css3" width="40" height="40"/> </a>
 &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://firebase.google.com/" target="_blank" rel="noreferrer"> <img src="https://plugins.jetbrains.com/files/12129/770043/icon/default.png" alt="java" height="40"/> </a>
+<a href="https://firebase.google.com/" target="_blank" rel="noreferrer"> <img src="https://downloads.marketplace.jetbrains.com/files/12129/770043/icon/default.png" alt="java" height="40"/> </a>
 </p>
 
 ## Showcase</h1>
